@@ -13,82 +13,84 @@ public class magicArtOnline {
 		File filePlayerSpells = new File ("HechizosJugadores.txt");
 		File fileEnemy = new File ("Enemigo.txt");
 		
-		Scanner archJugadores = new Scanner(filePlayers);
-		Scanner archHechizos = new Scanner(fileSpells);
-		Scanner archHechizoJugadores = new Scanner(filePlayerSpells);
-		Scanner archEnemigos = new Scanner(fileEnemy);
+		Scanner archPlayers = new Scanner(filePlayers);
+		Scanner archSpells = new Scanner(fileSpells);
+		Scanner archPlayerSpells = new Scanner(filePlayerSpells);
+		Scanner archEnemy = new Scanner(fileEnemy);
 		
-		int largo = 100;
+		int longArray = 100;
 		
-		String[][] datosEnemigos = new String[][] {{"F","C","B","A","S"}, //Clases
-												   {"100","250","500","750","1000"}, //Experiencia otorgada
-												   {"75","50","25","10","1"}, //Probabilidad de aparición
-												   {"1","2","5","10","20"}}; // Puntos de estadística
+		String[][] enemyData = new String[][] {{"F","100" ,"75","1" },
+							                   {"C","250" ,"50","2" },
+							                   {"B","500" ,"25","5" },
+							                   {"A","750" ,"10","10"},
+							                   {"S","1000","1" ,"20"}};
 		
-		String[][] jugadores = new String[largo][8];
-		String[][] hechizos = new String[largo][2];
-		String[][] hechizosJugadores = new String[largo][2];
-		String[][] enemigos = new String[largo][5];
+		String[][] players = new String[longArray][8];
+		String[][] spells = new String[longArray][2];
+		String[][] playerSpells = new String[longArray][2];
+		String[][] enemies = new String[longArray][5];
 
-		rellenarMatriz(archJugadores, jugadores);
-		rellenarMatriz(archHechizos, hechizos);
-		rellenarMatriz(archHechizoJugadores, hechizosJugadores);
-		rellenarMatriz(archEnemigos, enemigos);
-		
-		
-		System.out.println("prueba");
+		fillArray(archPlayers, players);
+		fillArray(archSpells, spells);
+		fillArray(archPlayerSpells, playerSpells);
+		fillArray(archEnemy, enemies);
+    printArray(players,0);
 		
 		sc.close();
 	}
 
-	private static boolean buscarElemento(String[][] matriz, String elemento,int indiceInicial) 
-	{
-		for (int i=0;i<matriz.length;i++)
-		{
-			for (int j=0;indiceInicial<matriz[0].length;j++)
-			{
-				if (elemento.equals(matriz[i][j]))
-				{
-					return true;
-				}
-				
-			}
-		}
-		return false;
-	}
 	
-	private static void ingresarListaEnMatriz(String[] lista,String[][] matriz) 
+	
+	private static void enterListIntoArray(String[] list,String[][] array) //Ingresa una lista a la primera fila de elementos nulos de una matriz
 	{
 		int i = 0;
-		while(matriz[i][0] != null)
+		while(array[i][0] != null)
 		{
 			i++;
 		}
-		matriz[i] = lista;
+		array[i] = list;
 	}
 	
-	private static void imprimirMatriz(String[][] matriz, int indiceInicial) 
+	private static void printArray(String[][] array, int initialColumn) //Imprime una matriz desde una columna Inicial hasta el máximo de columnas de la matriz misma
 	{
-		for (int i=0;i<matriz.length;i++)
+		for (int i=0;i<array.length;i++)
 		{
 			System.out.print("[ ");
-			for (int j=indiceInicial;j<matriz[0].length;j++)
+			for (int j=initialColumn;j<array[0].length;j++)
 			{
-				System.out.print(matriz[i][j]+" ");
+				System.out.print(array[i][j]+" ");
 			}
 			System.out.println("]");
 		}
 	}
 
-	private static void rellenarMatriz(Scanner archivo, String[][] matriz) 
+	private static void fillArray(Scanner archive, String[][] array) //Rellena una matriz ya creada con los elementos de un respectivo archivo
 	{
-		int cont = 0;
-		while (archivo.hasNextLine())
+		int count = 0;
+		while (archive.hasNextLine()) //Si detecta que hay una línea en el archivo, sigue leyendo
 		{
-			String[] partes = archivo.nextLine().split(",");
-			matriz[cont] = partes;
-			cont++;
+			String[] parts = archive.nextLine().split(","); //Se crea una lista con los elementos del archivo separado por comas
+			array[count] = parts; //Se remplaza la fila de la matriz por la lista "partes" actual
+			count++;
 		}
 	}
+  // en teoria le das una palarabra (chekstring) y este te retorna true o false buscando en la matriz true es que esta y false es que no esta la palabra en la matriz
+	private static void search (String [][] array, boolean kum,String chekstring) 
+	{
+		for (int i=0;i<array.length;i++) // este for se supone que recorre la matriz entera 
+		{
+			for (int j=i;j<array[0].length;j++) {
+				if (chekstring == array [i][j] ) {
+					kum = true;
+					System.out.println(kum);
+					}
+				}
+		}
 
+	}
+  
+  {
+    
+  }
 }
