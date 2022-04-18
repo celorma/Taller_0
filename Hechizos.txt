@@ -1,1 +1,17 @@
 Meteo,9999
+Embestida,14
+Cabezazo,10
+Trinidad,20
+Estoque,17
+Piedrazo,7
+Rayo destructor de seres vivos,30
+Pium,1
+Salto Espacial,11
+Golpe Cargado,15
+Trueno,13
+Furia,10
+Terremoto,31
+Arae,12
+Kimbu,15
+Kamaraka,69
+Arka,20

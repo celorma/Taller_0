@@ -2,4 +2,5 @@ Memekaizar,pato123,10,10,10,10,2,1500
 Aruek,audifono,8,20,5,15,5,4200
 Shanty,mamaypapa123,12,12,8,20,3,2300
 Celorma,super123,20,8,15,10,3,2100
-BOLTBLASTER13,nidea,12,18,7,16,4,3900
+BOLTBLASTER13,madiXsiempre,12,18,7,16,4,3900
+Joan,nagindeah,10,7,20,10,3,2300
