@@ -19,14 +19,18 @@ public class magicArtOnline
 		Scanner archEnemy = new Scanner(fileEnemy);
 		
 		int longArray = 100;
+		int enemyHP, enemyATK, enemyVEL;
+		int playerHP, playerATK, playerDEF, playerVEL;
+		int userTurnATK = 0;
 		
 		String user = null, password = null, registerConfirmation = null;
-		String menu = null;
-		String combatType = null;
+		String option = null;
 		String enemy = null;
 		
+		
+		
 		String[] newPlayer = new String[] {"nuevoUsuario","nuevaContraseña","5","5","5","5","1","0"};
-		String[] enemyStats = null;
+		String[] enemyStats = null ,playerStats = null;
 		
 		String[][] enemyData = new String[][] {{"S","1000","1" ,"20"},
 							                   {"A","750" ,"10","10"},
@@ -94,6 +98,12 @@ public class magicArtOnline
 		
 		}while(!compare(players,user,password));
 		
+		playerStats = userList(players,user);
+		playerHP = Integer.parseInt(playerStats[2]);
+		playerATK = Integer.parseInt(playerStats[3]);
+		playerDEF = Integer.parseInt(playerStats[4]);
+		playerVEL = Integer.parseInt(playerStats[5]);
+		
 		System.out.println("Bienvenido "+user+", qué desea hacer?: ");
 		System.out.println();
 		System.out.println("*Pelear contra un enemigo");
@@ -101,30 +111,50 @@ public class magicArtOnline
 		System.out.println("*Ver estadisticas de un jugador");
 		System.out.println("*Ver estadisticas de hechizos");
 		System.out.println("*Ver ranking de jugadores con mas experiencia");
-		System.out.println();
-		menu = input("Ingresar opción: ");
-		division();
+		option = enterOption();
 		
-		if (menu.equals("Pelear contra un enemigo"))
+		if (option.equals("Pelear contra un enemigo"))
 		{
-			
-			
-			
 			System.out.println("Qué tipo de combate desea?");
 			System.out.println();
 			System.out.println("*JcE");
 			System.out.println("*JvJ");
-			System.out.println();
-			combatType = input("Ingresar opción: ");
-			division();
+			option = enterOption();
 			
-			if (combatType.equals("JcE"))
+			if (option.equals("JcE"))
+			{
 				enemyStats = enemy(enemies,enemyData);
 				enemy = enemyStats[0];
-			{
+				enemyHP = Integer.parseInt(enemyStats[1]);
+				enemyATK = Integer.parseInt(enemyStats[2]);
+				enemyVEL = Integer.parseInt(enemyStats[4]);
+				
+				
+				
 				System.out.println(user+" se ha encontrado con "+enemy);
+				System.out.println();
+				System.out.println("Qué desea hacer?");
+				System.out.println();
+				System.out.println("*Atacar");
+				System.out.println("*Usar habilidad");
+				option = enterOption();
+				
+				if (option.equals("Atacar"))
+				{
+					System.out.println();
+				}
+				
 			}
 		}
+	}
+
+
+
+	private static String enterOption() {
+		System.out.println();
+		String option = input("Ingresar opción: ");
+		division();
+		return option;
 	}
 
 
@@ -176,7 +206,7 @@ public class magicArtOnline
 		}
 	}
   // en teoria le das una palarabra (chekstring) y este te retorna true o false buscando en la matriz true es que esta y false es que no esta la palabra en la matriz
-	private static boolean search(String [][] array,String chekstring, int initialColumn, int finalColumn) 
+	private static boolean search(String[][] array,String chekstring, int initialColumn, int finalColumn) 
 	{
 		for (int i=0;i<array.length;i++)
 		{
@@ -193,6 +223,20 @@ public class magicArtOnline
 				
 		}
 		return false;
+	}
+	
+	private static String[] userList(String[][] playerArray,String user) 
+	{
+		String[] playerStats = null;
+		for (int i=0;i<playerArray.length;i++)
+		{
+			if (playerArray[i][0].equals(user))
+			{
+				playerStats = playerArray[i];
+				break;
+			}
+		}
+		return playerStats;
 	}
 	
 	private static boolean compare(String[][] array,String user1, String password2) // ver si estan en misma fila 
