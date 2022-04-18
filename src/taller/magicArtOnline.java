@@ -20,26 +20,34 @@ public class magicArtOnline
 		
 		int longArray = 100;
 		
-		String user = null, password = null;
-		String confirmation = null;
+		String user = null, password = null, registerConfirmation = null;
+		String menu = null;
+		String combatType = null;
+		String enemy = null;
 		
 		String[] newPlayer = new String[] {"nuevoUsuario","nuevaContraseña","5","5","5","5","1","0"};
+		String[] enemyStats = null;
 		
-		String[][] enemyData = new String[][] {{"F","100" ,"75","1" },
-							                   {"C","250" ,"50","2" },
-							                   {"B","500" ,"25","5" },
+		String[][] enemyData = new String[][] {{"S","1000","1" ,"20"},
 							                   {"A","750" ,"10","10"},
-							                   {"S","1000","1" ,"20"}};
+							                   {"B","500" ,"25","5" },
+							                   {"C","250" ,"50","2" },
+							                   {"F","100" ,"75","1" }};
 		
 		String[][] players = new String[longArray][8];
 		String[][] spells = new String[longArray][2];
 		String[][] playerSpells = new String[longArray][2];
 		String[][] enemies = new String[longArray][5];
+		
+		
+		
 
 		fillArray(archPlayers, players);
 		fillArray(archSpells, spells);
 		fillArray(archPlayerSpells, playerSpells);
 		fillArray(archEnemy, enemies);
+		
+		
 		
 		do
 		{
@@ -49,9 +57,9 @@ public class magicArtOnline
 			
 			if (!search(players,user,0,0)) 
 			{
-		    	confirmation = input("Usuario no encontrado, desea registrarse?(SI/NO): ");
+		    	registerConfirmation = input("Usuario no encontrado, desea registrarse?(SI/NO): ");
 		    	
-		    	if (confirmation.equals("SI"))
+		    	if (registerConfirmation.equals("SI"))
 				{
 		    		do
 		    		{
@@ -85,10 +93,38 @@ public class magicArtOnline
 			}
 		
 		}while(!compare(players,user,password));
- 
-	    
 		
-
+		System.out.println("Bienvenido "+user+", qué desea hacer?: ");
+		System.out.println();
+		System.out.println("*Pelear contra un enemigo");
+		System.out.println("*Aprender hechizo");
+		System.out.println("*Ver estadisticas de un jugador");
+		System.out.println("*Ver estadisticas de hechizos");
+		System.out.println("*Ver ranking de jugadores con mas experiencia");
+		System.out.println();
+		menu = input("Ingresar opción: ");
+		division();
+		
+		if (menu.equals("Pelear contra un enemigo"))
+		{
+			
+			
+			
+			System.out.println("Qué tipo de combate desea?");
+			System.out.println();
+			System.out.println("*JcE");
+			System.out.println("*JvJ");
+			System.out.println();
+			combatType = input("Ingresar opción: ");
+			division();
+			
+			if (combatType.equals("JcE"))
+				enemyStats = enemy(enemies,enemyData);
+				enemy = enemyStats[0];
+			{
+				System.out.println(user+" se ha encontrado con "+enemy);
+			}
+		}
 	}
 
 
@@ -98,17 +134,13 @@ public class magicArtOnline
 		System.out.println("o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o");
 		System.out.println();
 	}
-
-
-
+	
 	private static String input(String print) {
 		Scanner sc = new Scanner (System.in);
 		System.out.print(print);
 		String variable = sc.nextLine();
 		return variable;
 	}
-
-	
 	
 	private static void enterListIntoArray(String[] list,String[][] array) //Ingresa una lista a la primera fila de elementos nulos de una matriz
 	{
@@ -178,6 +210,50 @@ public class magicArtOnline
     return false;
 	}
 	
+	private static String enemyClass(String[][] enemyData) 
+	{
+		
+		double[] probabilities = new double[enemyData.length];
+	    double[] acumulated = new double[enemyData.length];
+	    
+	    double previus = 0;
+	    double probability = Math.random();
+	    String classOfEnemy = null;
+	    
+	    
+	    for (int i=0;i<enemyData.length;i++)
+	    {
+	    	
+	    	probabilities[i] = Double.parseDouble(enemyData[i][2])/(100*1.61);
+	    	acumulated[i] = probabilities[i] + previus;
+			previus = acumulated[i];
+			if (probability<acumulated[i])
+		    {
+		    	classOfEnemy = enemyData[i][0];
+		    	break;
+		    }
+	    }
+	    
+	    return classOfEnemy;
+	    
+	}
+	
+	private static String[] enemy(String[][] enemies,String[][] enemyData) 
+	{
+		String enemyClass = enemyClass(enemyData);
+		String[] enemy;
+		
+		while (true)
+		{
+			int probability = (int) (Math.random()*enemies.length);
+			if(enemyClass.equals(enemies[probability][3]))
+			{
+				enemy = enemies[probability];
+				break;
+			}
+		}
+		return enemy;
+	}
 }
 
 

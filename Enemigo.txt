@@ -1,1 +1,20 @@
 Bahamut,30,20,S,50
+Mistbug,12,7,C,9
+Una Ansiedad,12,1,F,3
+Sonic,20,12,A,100
+Fleskelox,15,9,B,15
+Fogtree,18,4,C,7
+Baxter,4,2,F,7
+Markra,22,7,B,30
+Makegg,7,10,C,20
+Centipede,20,20,A,30
+Edaf,11,6,C,10
+Ovolen,10,12,B,12
+Kooper,40,7,A,10
+Leggy,2,4,F,5
+Detamu,40,2,B,8
+Dozrina,14,5,C,12
+Eskama,8,12,B,15
+Cherish,6,2,F,3
+Spike,5,4,F,6
+Duskhag,5,4,F,2
