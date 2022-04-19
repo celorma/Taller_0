@@ -4,3 +4,4 @@ Shanty,mamaypapa123,12,12,8,20,3,2300
 Celorma,super123,20,8,15,10,3,2100
 BOLTBLASTER13,madiXsiempre,12,18,7,16,4,3900
 Joan,nagindeah,10,7,20,10,3,2300
+Shaman,equisde,1,1,1,1,1,0

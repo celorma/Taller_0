@@ -1,1 +1,21 @@
 Memekaizar,Meteo
+Aruek,Trinidad
+Shanty,Terremoto
+Celorma,Estoque
+Aruek,Rayo destructor de seres vivos
+BOLTBLASTER13,
+Joan,Arka
+Shanty,Arka
+Aruek,Kamaraka
+BOLTBLASTER13,Furia
+Celorma,Trueno
+Shanty,Estoque
+BOLTBLASTER13,Golpe Cargado
+Joan,Trueno
+Aruek,Golpe Cargado
+Celorma,Terremoto
+Aruek,Pium
+Joan,Furia
+Memekaizar,Pium
+BOLTBLASTER13,Trinidad
+Shaman,Pium
