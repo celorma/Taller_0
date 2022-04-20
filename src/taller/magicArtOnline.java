@@ -19,8 +19,8 @@ public class magicArtOnline
 		Scanner archEnemy = new Scanner(fileEnemy);
 		
 		int longArray = 100;
-		int enemyHP, enemyATK, enemyVEL;
-		int playerHP, playerATK, playerDEF, playerVEL;
+		int enemyHP, enemyATK, enemyVEL, enemyTurnATK;
+		int playerHP, playerHPMAX, playerATK, playerDEF, playerVEL;
 		int spellATK = 0, userTurnATK = 0;
     	int expGained = 0, pointsGained = 0;
 		
@@ -32,6 +32,7 @@ public class magicArtOnline
 		int score [] = null;
 		
 		String[] newPlayer = new String[] {"nuevoUsuario","nuevaContraseña","5","5","5","5","1","0"};
+		String[] newSpell = new String[2];
 		String[] enemyStats = null ,playerStats = null;
 	    String[] playerSpells = null;
 	    
@@ -77,7 +78,11 @@ public class magicArtOnline
 							System.out.println("Registrado correctamente!");
 							newPlayer[0] = user;
 							newPlayer[1] = password;
+							newSpell[0] = user;
+							newSpell[1] = randomColumnElement(spells, 0);
+							
 							enterListIntoArray(newPlayer, players);
+							enterListIntoArray(newSpell, userSpells);
 							division();
 							break;
 						}
@@ -99,12 +104,6 @@ public class magicArtOnline
 			}
 		
 		}while(!compare(players,user,password));
-		
-		playerStats = userList(players,user);
-		playerHP = Integer.parseInt(playerStats[2]);
-		playerATK = Integer.parseInt(playerStats[3]);
-		playerDEF = Integer.parseInt(playerStats[4]);
-		playerVEL = Integer.parseInt(playerStats[5]);
 		
 		playerSpells = playerSpells(userSpells,user);
 		
@@ -143,67 +142,75 @@ public class magicArtOnline
 				{
 					do
 					{
-					enemyStats = enemy(enemies,enemyData);
-					enemy = enemyStats[0];
-					enemyHP = Integer.parseInt(enemyStats[1]);
-					enemyATK = Integer.parseInt(enemyStats[2]);
-					enemyVEL = Integer.parseInt(enemyStats[4]);
-					expGained = boundValue(enemyData,enemyStats[3],1);
-					pointsGained = boundValue(enemyData,enemyStats[3],3);
+						enemyStats = enemy(enemies,enemyData);
+						enemy = enemyStats[0];
+						enemyHP = Integer.parseInt(enemyStats[1]);
+						enemyATK = Integer.parseInt(enemyStats[2]);
+						enemyVEL = Integer.parseInt(enemyStats[4]);
+						
+						playerStats = userList(players,user);
+						playerHPMAX = Integer.parseInt(playerStats[2]);
+						playerHP = playerHPMAX;
+						playerATK = Integer.parseInt(playerStats[3]);
+						playerDEF = Integer.parseInt(playerStats[4]);
+						playerVEL = Integer.parseInt(playerStats[5]);
+						
+						expGained = boundValue(enemyData,enemyStats[3],1);
+						pointsGained = boundValue(enemyData,enemyStats[3],3);
+						
+						System.out.println(user+"(HP: "+playerHP+" ;ATK: "+playerATK+" ;DEF: "+playerDEF+" ;VEL: "+playerVEL+")"+" se ha encontrado con "+enemy+" (HP: "+enemyHP+" ;ATK: "+enemyATK+")");
+						System.out.println();
+			
+					        while (enemyHP > 0 && playerHP > 0)
+					        {
+					        	System.out.println(enemy+" (HP: "+enemyHP+")");
+					        	System.out.println("Qué desea hacer "+user+"? (HP: "+playerHP+")");
+								System.out.println();
+								System.out.println("*Atacar");
+								System.out.println("*Usar habilidad");
+								option = enterOption();
+								
+								
+								
+								userTurnATK = attackEnemy(spells, playerSpells, playerATK, spellATK, option);
+					            enemyTurnATK = enemyATK-playerDEF;
+					            if (enemyTurnATK < 0)
+					            {
+					            	enemyTurnATK = 0;
+					            }
+								
+					            enemyHP -= userTurnATK; 
+					            System.out.println(enemy+" recibe "+userTurnATK+" puntos de daño!");
+					            System.out.println();
+					            
+					            if (enemyHP <= 0)
+					            {
+					            	System.out.println("Has ganado!");
+					            	System.out.println("Recibes "+expGained+" puntos de experiencia");
+					            	System.out.println("Recibes "+pointsGained+" punto(s) de estadística");
+					            	division();
+					            	playerStats = rewardPoints(playerStats, pointsGained);
+					            	division();
+					            	break;
+					            }
+					            playerHP -= enemyTurnATK;
+					            System.out.println("El enemigo ataca!");
+					            System.out.println("Recibes "+enemyTurnATK+" puntos de daño!");
+					            division();
 					
-					System.out.println(user+" se ha encontrado con "+enemy+" (HP: "+enemyHP+" ;ATK: "+enemyATK+")");
-					System.out.println();
-		
-				        while (enemyHP > 0 && playerHP > 0)
-				        {
-				        	System.out.println("Qué desea hacer?");
-							System.out.println();
-							System.out.println("*Atacar");
-							System.out.println("*Usar habilidad");
-							option = enterOption();
-				
-				            if (option.equals("Atacar"))
-							{
-								userTurnATK = playerATK;
-							}
-				
-				            else if (option.equals("Usar habilidad"))
-				    		{
-						        System.out.println("Seleccione una habilidad:");
-						        System.out.println();
-						        for (int i=0;i<playerSpells.length;i++)
-						        {
-						       	  System.out.println("*"+playerSpells[i]+" (ATK: "+boundValue(spells,playerSpells[i],1)+")");
-						        }
-						        option = enterOption();
-						        spellATK = boundValue(spells,option,1);
-						        userTurnATK = spellATK;
-				            }
-				            
-				            enemyHP -= userTurnATK;
-				            playerHP -= enemyATK;
-				            System.out.println(enemy+" recibe "+userTurnATK+" puntos de daño!");
-				            System.out.println();
-				            System.out.println("El enemigo ataca!");
-				            System.out.println("Recibes "+enemyATK+" puntos de daño!");
-				            division();
-				
-				            if (playerHP <= 0)
-				            {
-				            	System.out.println("Perdiste :c");
-				              	System.out.println("Intentalo de nuevo!");
-				            }
-				            else if (enemyHP <= 0)
-				            {
-				            	System.out.println("Has ganado!");
-				            	System.out.println("Recibes "+expGained+" puntos de experiencia");
-				            	System.out.println("Recibes "+pointsGained+" punto(s) de estadística");
-				            	division();
-				            }
-				        }
-			        confirmation = input("Desea volver a batallar? (SI/NO): ");
-			        confirmation = yesNone(confirmation);
-			        
+					            
+					            
+					            
+					            if (playerHP <= 0)
+					            {
+					            	System.out.println("Perdiste :c");
+					              	System.out.println("Intentalo de nuevo!");
+					            }
+					            
+					        }
+				        confirmation = input("Desea volver a batallar? (SI/NO): ");
+				        confirmation = yesNone(confirmation);
+				        
 					}while(confirmation.equals("SI"));
 		        }
 			}
@@ -267,7 +274,6 @@ public class magicArtOnline
 	
 	private static String menuComprobation(String option) 
 	{
-		System.out.println();
 		while (!option.equals("Pelear contra un enemigo") && !option.equals("Ver ranking de jugadores con mas experiencia") && !option.equals("Aprender hechizo") && !option.equals("Ver estadisticas de hechizos") && !option.equals("Ver ranking de jugadores con mas experiencia"))
 		{
 			option = input("-Ingrese una respuesta válida- : ");
@@ -437,6 +443,22 @@ public class magicArtOnline
     return false;
 	}
 	
+	private static String randomColumnElement(String[][] array, int column) 
+	{
+		int randomNumber = 0, counter = 0;
+		String element = null;
+		for (int i=0;i<array.length;i++)
+		{
+			if (array[i][column] == null)
+			{
+				break;
+			}
+			counter++;
+		}
+		randomNumber = (int) (Math.random()*counter);
+		element = array[randomNumber][column];
+		return element;
+	}
 	private static String[] playerSpells(String[][] userSpellsArray,String user) 
 	{
 		int counter = 0;
@@ -474,11 +496,15 @@ public class magicArtOnline
 	    
 	    for (int i=0;i<array.length;i++)
 	    {
-	        if (array[i][0].equals(variable))
-	        {
-	          value = Integer.parseInt(array[i][column]);
-	          break;
-	        }
+	    	if (array[i][0] != null)
+	    	{
+	    		if (array[i][0].equals(variable))
+		        {
+		          value = Integer.parseInt(array[i][column]);
+		          break;
+		        }
+	    	}
+	        
 	    }
 	    return value;
 	}
@@ -526,6 +552,87 @@ public class magicArtOnline
 			}
 		}
 		return enemy;
+	}
+	
+	private static int attackEnemy(String[][] spells,String[] playerSpells,int playerATK,int spellATK, String option) 
+	{
+		int userTurnATK = 0;
+		
+		if (option.equals("Atacar"))
+		{
+			userTurnATK = playerATK;
+		}
+
+        else if (option.equals("Usar habilidad"))
+		{
+	        System.out.println("Seleccione una habilidad:");
+	        System.out.println();
+	        for (int i=0;i<playerSpells.length;i++)
+	        {
+	       	  System.out.println("*"+playerSpells[i]+" (ATK: "+boundValue(spells,playerSpells[i],1)+")");
+	        }
+	        option = enterOption();
+	        spellATK = boundValue(spells,option,1);
+	        userTurnATK = spellATK;
+        }
+		
+		return userTurnATK;
+	}
+	
+	private static String[] rewardPoints(String[] playerStats,int pointsGained) 
+	{
+		
+		int usedPoints = 0, reamingPoints = pointsGained, i = 0;
+		String stat = null;
+		
+		while(reamingPoints > 0)
+		{
+			System.out.println(reamingPoints+" punto(s) restante(s)");
+			System.out.println();
+			do
+			{
+				stat = input("Cuál estadística desea mejorar? (HP/ATK/DEF/VEL): ");
+				System.out.println();
+				
+				if (stat.equals("HP"))
+				{
+					i = 2;
+				}
+				else if (stat.equals("ATK"))
+				{
+					i = 3;
+				}
+				else if (stat.equals("DEF"))
+				{
+					i = 4;
+				}
+				else if (stat.equals("VEL"))
+				{
+					i = 5;
+				}
+				else
+				{
+					i -= i;
+					System.out.println("Ingrese un valor válido");
+					System.out.println();
+					break;
+				}
+				
+					usedPoints = Integer.parseInt(input("Cuántos desea usar?: "));
+					if (reamingPoints < usedPoints)
+					{
+						System.out.println();
+						System.out.println("Cantidad insuficiente de puntos");
+						System.out.println();
+						break;
+					}
+				reamingPoints -= usedPoints;
+				playerStats[i] = String.valueOf(Integer.parseInt(playerStats[i])+usedPoints);
+			
+			}while(!stat.equals("HP") && !stat.equals("ATK") && !stat.equals("DEF") && !stat.equals("VEL"));
+		}
+		
+		return playerStats;
 	}
 	
 	private static int index(String player, String players [] [],int line ) 
